@@ -13,7 +13,7 @@ v install --git https://github.com/DGrewal8055/termcolor
 import termcolor as tc
 
 fn main () {
-    println(tc.colorize(text : "Hello World", fc : ".red"))
+    println(tc.colorize(text : "Hello World", fc : ".red", style : .bold | .underline))
 }
 ```
 
