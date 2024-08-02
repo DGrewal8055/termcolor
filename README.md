@@ -16,6 +16,20 @@ fn main () {
     println(tc.colorize(text : "Hello World", fc : ".red", style : .bold | .underline))
 }
 ```
+```v
+import termcolor as tc
+
+fn main () {
+    println(tc.colorize(text : "Hello World", frgb : RGB{255, 0, 0}, style : .dim))
+}
+```
+```v
+import termcolor as tc
+
+fn main () {
+    println(tc.colorize(text : "Hello World", fhex : 0xFF0000, style : .italic))
+}
+```
 
 ### Text Config
 
@@ -25,12 +39,8 @@ These are the all avaiable options
 - `mode` - change the color mode (default : .col)
 - `fc` - foreground color
 - `bc` - background color
-- `r` - red color for `.rgb` mode
-- `g` - green color for `.rgb` mode
-- `b` - blue color for `.rgb` mode
-- `br` - background red color for `.rgb` mode 
-- `bg` - background green color for `.rgb` mode 
-- `bb` - background blue color for `.rgb` mode 
+- `frgb` - foreground color for `.rgb` mode
+- `brgb` - background red color for `.rgb` mode 
 - `fhex` - foreground color for `.hex` mode
 - `bhex` - bacground color for `.hex` mode
 - `fbit` - foreground color for `.bit`(256 color) mode

@@ -66,13 +66,6 @@ fn (s Style) to_styles() string {
 	return c
 }
 
-const fg_rgb = 38
-const bg_rgb = 48
-
-const prefix = '\033['
-const suffix = 'm'
-const reset = '${prefix}0${suffix}'
-
 pub enum Mode {
 	col
 	rgb
@@ -87,53 +80,70 @@ pub:
 	text  string @[required]
 	fc    FG = .default
 	bc    BG = .default
-	fhex  string
-	bhex  string
-	r     int
-	g     int
-	b     int
-	br    int
-	bg    int
-	bb    int
+	fhex  u32
+	bhex  u32
+	frgb  RGB
+	brgb  RGB
 	fbit  int
 	bbit  int
 	style Style = .normal
 	mode  Mode  = .col
 }
 
+pub struct RGB {
+	r u8
+	g u8 
+	b u8
+}
+
+const fg_rgb = 38
+const bg_rgb = 48
+
+const prefix = '\033['
+const suffix = 'm'
+const reset = '${prefix}0${suffix}'
+
 pub fn colorize(text Text) string {
 	mut styles := text.style.to_styles()
 
-	frgb := text.fhex.u8_array()
-	brgb := text.bhex.u8_array()
+	fr := u8(text.fhex >> (8 * 2))
+	fg := u8(text.fhex >> (8 * 1))
+	fb := u8(text.fhex >> (8 * 0))
+	
+	br := u8(text.bhex >> (8 * 2))
+	bg := u8(text.bhex >> (8 * 1))
+	bb := u8(text.bhex >> (8 * 0))
+	
+	// frgb := text.fhex.u8_array()
+	// brgb := text.bhex.u8_array()
 
 	match text.mode {
 		.col {
-			return '${termcolor.prefix}${int(text.bc)};${int(text.fc)}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+			return '${prefix}${int(text.bc)};${int(text.fc)}${styles}${suffix}${text.text}${reset}'
 		}
 		.hex {
-			if text.bhex == '' {
-				return '${termcolor.prefix}${termcolor.fg_rgb};2;${frgb[0]};${frgb[1]};${frgb[2]}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+			if text.bhex == 0 {
+				return '${prefix}${fg_rgb};2;${fr};${fg};${fb}${styles}${suffix}${text.text}${reset}'
 			} else {
-				return '${termcolor.prefix}${termcolor.bg_rgb};2;${brgb[0]};${brgb[1]};${brgb[2]};${termcolor.fg_rgb};2;${frgb[0]};${frgb[1]};${frgb[2]}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+				return '${prefix}${bg_rgb};2;${br};${bg};${bb};${fg_rgb};2;${fr};${fg};${fb}${styles}${suffix}${text.text}${reset}'
 			}
 		}
 		.rgb {
-			if text.br == 0 || text.bg == 0 || text.bb == 0 {
-				return '${termcolor.prefix}${termcolor.fg_rgb};2;${text.r};${text.g};${text.b}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+			if text.brgb == RGB{} {
+				return '${prefix}${fg_rgb};2;${text.frgb.r};${text.frgb.g};${text.frgb.b}${styles}${suffix}${text.text}${reset}'
 			} else {
-				return '${termcolor.prefix}${termcolor.bg_rgb};2;${text.br};${text.bg};${text.bb};${termcolor.fg_rgb};2;${text.r};${text.g};${text.b}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+				return '${prefix}${bg_rgb};2;${text.brgb.r};${text.brgb.g};${text.brgb.b};${fg_rgb};2;${text.frgb.r};${text.frgb.g};${text.frgb.b}${styles}${suffix}${text.text}${reset}'
 			}
 		}
 		.bit {
 			if text.bbit == 0 {
-				return '${termcolor.prefix}38;5;${text.fbit}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+				return '${prefix}38;5;${text.fbit}${styles}${suffix}${text.text}${reset}'
 			} else {
-				return '${termcolor.prefix}48;5;${text.bbit};38;5;${text.fbit}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+				return '${prefix}48;5;${text.bbit};38;5;${text.fbit}${styles}${suffix}${text.text}${reset}'
 			}
 		}
 		else {
-			return '${termcolor.prefix}${int(FG.default)}${styles}${termcolor.suffix}${text.text}${termcolor.reset}'
+			return '${prefix}${int(FG.default)}${styles}${suffix}${text.text}${reset}'
 		}
 	}
 }
