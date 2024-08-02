@@ -91,6 +91,7 @@ pub:
 }
 
 pub struct RGB {
+pub:
 	r u8
 	g u8 
 	b u8
@@ -109,13 +110,10 @@ pub fn colorize(text Text) string {
 	fr := u8(text.fhex >> (8 * 2))
 	fg := u8(text.fhex >> (8 * 1))
 	fb := u8(text.fhex >> (8 * 0))
-	
+
 	br := u8(text.bhex >> (8 * 2))
 	bg := u8(text.bhex >> (8 * 1))
 	bb := u8(text.bhex >> (8 * 0))
-	
-	// frgb := text.fhex.u8_array()
-	// brgb := text.bhex.u8_array()
 
 	match text.mode {
 		.col {

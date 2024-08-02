@@ -20,7 +20,7 @@ fn main () {
 import termcolor as tc
 
 fn main () {
-    println(tc.colorize(text : "Hello World", frgb : RGB{255, 0, 0}, style : .dim))
+    println(tc.colorize(text : "Hello World", frgb : tc.RGB{255, 0, 0}, style : .dim))
 }
 ```
 ```v
