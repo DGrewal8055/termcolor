@@ -21,8 +21,8 @@ fn main () {
 
 These are the all avaiable options
 
-- `text` - string you want to change
-- `mode` - change the color mode
+- `text` - string you want to change (required)
+- `mode` - change the color mode (default : .col)
 - `fc` - foreground color
 - `bc` - background color
 - `r` - red color for `.rgb` mode
@@ -37,8 +37,13 @@ These are the all avaiable options
 - `bbit` - background color for `.bit`(256 color) mode
 - `style` - style for the text
 
+Avaiable Modes :
+- `.col` - Normal Color Mode
+- `.hex` - Hexa decimal Color Mode `(0xFF00FF)`
+- `.bit` - 256 Color Mode
+- `.rgb` - RGB Color Mode `(r : 255, g : 0, b : 255)`
 
-Avaiable Colors :
+Avaiable Normal Colors :
 - black
 - red
 - green
