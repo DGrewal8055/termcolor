@@ -1,5 +1,5 @@
 # termcolor
-Colorize terminal Output for V Language
+Colorize terminal Output for [V Language](https://vlang.io).
 
 ## Installation
 Install `termcolor` module
@@ -88,5 +88,6 @@ Available styles :
 256 Color Mode :
 ![256-color-mode](https://i.sstatic.net/KTSQa.png)
 
-
+# Acknowledgments
+Based on Mewzax's [chalk](https://github.com/Mewzax/chalk) library.
  
