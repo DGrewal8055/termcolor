@@ -20,14 +20,14 @@ fn main () {
 import termcolor as tc
 
 fn main () {
-    println(tc.colorize(text : "Hello World", frgb : tc.RGB{255, 0, 0}, style : .dim))
+    println(tc.colorize(text : "Hello World", mode : .rgb, frgb : tc.RGB{255, 0, 0}, style : .dim))
 }
 ```
 ```v
 import termcolor as tc
 
 fn main () {
-    println(tc.colorize(text : "Hello World", fhex : 0xFF0000, style : .italic))
+    println(tc.colorize(text : "Hello World", mode : .hex, fhex : 0xFF0000, style : .italic))
 }
 ```
 
