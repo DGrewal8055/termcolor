@@ -82,19 +82,22 @@ pub:
 	bc    BG = .default
 	fhex  u32
 	bhex  u32
-	frgb  RGB
-	brgb  RGB
+	frgb  struct {
+	pub:	
+		r u8
+		g u8
+		b u8
+	}
+	brgb  struct {
+	pub:
+		r u8
+		g u8
+		b u8
+	}
 	fbit  int
 	bbit  int
 	style Style = .normal
 	mode  Mode  = .col
-}
-
-pub struct RGB {
-pub:
-	r u8
-	g u8 
-	b u8
 }
 
 const fg_rgb = 38
@@ -107,13 +110,13 @@ const reset = '${prefix}0${suffix}'
 pub fn colorize(text Text) string {
 	mut styles := text.style.to_styles()
 
-	fr := u8(text.fhex >> (8 * 2))
-	fg := u8(text.fhex >> (8 * 1))
-	fb := u8(text.fhex >> (8 * 0))
+	fr := u8(text.fhex >> 16)
+	fg := u8(text.fhex >> 8)
+	fb := u8(text.fhex)
 
-	br := u8(text.bhex >> (8 * 2))
-	bg := u8(text.bhex >> (8 * 1))
-	bb := u8(text.bhex >> (8 * 0))
+	br := u8(text.bhex >> 16)
+	bg := u8(text.bhex >> 8)
+	bb := u8(text.bhex)
 
 	match text.mode {
 		.col {
@@ -127,7 +130,7 @@ pub fn colorize(text Text) string {
 			}
 		}
 		.rgb {
-			if text.brgb == RGB{} {
+			if text.brgb == struct{} {
 				return '${prefix}${fg_rgb};2;${text.frgb.r};${text.frgb.g};${text.frgb.b}${styles}${suffix}${text.text}${reset}'
 			} else {
 				return '${prefix}${bg_rgb};2;${text.brgb.r};${text.brgb.g};${text.brgb.b};${fg_rgb};2;${text.frgb.r};${text.frgb.g};${text.frgb.b}${styles}${suffix}${text.text}${reset}'
