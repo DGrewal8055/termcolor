@@ -41,7 +41,7 @@ pub enum BG {
 }
 
 @[flag]
-pub enum Style {
+pub enum Style as u16 {
 	bold
 	dim
 	italic
